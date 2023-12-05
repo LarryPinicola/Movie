@@ -15,10 +15,13 @@ namespace AspDotNetCoreMVC.MovieApp.Controllers
             return "This is my default action.";
         }*/
 
-        public string Welcome(string name, int ID = 1)
+        public IActionResult Welcome(string name, int numTimes = 5)
         {
             //return "This is Welcome action method..";
-            return HtmlEncoder.Default.Encode($"Hello {name}, ID is {ID}");
+            //return HtmlEncoder.Default.Encode($"Hello {name}, ID is {ID}");
+            ViewData["Message"] = "hello " + name;
+            ViewData["NumTimes"] = numTimes;
+            return View();
         }
     }
 }

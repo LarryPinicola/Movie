@@ -1,4 +1,5 @@
-﻿The Model-View-Controller (MVC) architectural pattern separates an app into three main components: Model, View, and Controller. The MVC pattern helps you create apps that are more testable and easier to update than traditional monolithic apps.
+﻿```
+The Model-View-Controller (MVC) architectural pattern separates an app into three main components: Model, View, and Controller. The MVC pattern helps you create apps that are more testable and easier to update than traditional monolithic apps.
 
 View templates should not:
 -Do business logic
@@ -17,3 +18,6 @@ Scaffolding creates the following:
 -initialCatalog မှာ database name
 -'TrustServerCertificate=True' in appsetting.json [connectionStrings]
 -Data Source = "." or locathost
+
+Ctrl+Shift+B - you've added a new field to the Movie class, you need to update the property binding list so this new property will be included. In MoviesController.cs, update the [Bind] attribute for both the Create and Edit action methods to include the Rating property:
+```

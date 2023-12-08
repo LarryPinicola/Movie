@@ -20,5 +20,9 @@ namespace TestingMovieMVC.Models
         public decimal Price { get; set; }
 
         public string? Rating { get; set; }
+
+        [NotMapped]
+        [DisplayName("Image File")]
+        public IFormFile? imageFile { get; set; }
     }
 }

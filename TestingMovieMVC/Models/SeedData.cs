@@ -26,7 +26,7 @@ public static class SeedData
                     ReleaseDate = DateTime.Parse("1989-2-12"),
                     Genre = "Romantic Comedy",
                     Rating = "R",
-                    Price = 7.99M
+                    Price = 7.99M,
                 },
                 new Movie
                 {

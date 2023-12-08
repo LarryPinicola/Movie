@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TestingMovieMVC.Models
@@ -19,5 +20,9 @@ namespace TestingMovieMVC.Models
         public decimal Price { get; set; }
 
         public string? Rating { get; set; }
+
+        [NotMapped]
+        [DisplayName("Image File")]
+        public IFormFile? imageFile { get; set; }
     }
 }

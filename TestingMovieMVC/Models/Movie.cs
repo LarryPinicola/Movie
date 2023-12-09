@@ -21,8 +21,8 @@ namespace TestingMovieMVC.Models
 
         public string? Rating { get; set; }
 
+        [Display(Name ="ImageName")]
         [NotMapped]
-        [DisplayName("Image File")]
-        public IFormFile? imageFile { get; set; }
+        public IFormFile imgFile { get; set; }
     }
 }

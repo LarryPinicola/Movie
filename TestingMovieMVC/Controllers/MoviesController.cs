@@ -12,11 +12,30 @@ namespace TestingMovieMVC.Controllers
 {
     public class MoviesController : Controller
     {
+        private readonly IWebHostEnvironment webHostEnvironment;
+
         private readonly TestingMovieMVCContext _context;
 
-        public MoviesController(TestingMovieMVCContext context)
+        public MoviesController(TestingMovieMVCContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            this.webHostEnvironment = webHostEnvironment;
+        }
+
+        private string UploadedFile(Movie movie)
+        {
+            string uniqueFileName = null;
+            if (movie.imgFile != null)
+            {
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + movie.imgFile.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    movie.imgFile.CopyTo(fileStream);
+                }
+            }
+            return uniqueFileName;
         }
 
         // GET: Movies
@@ -82,12 +101,23 @@ namespace TestingMovieMVC.Controllers
             return View();
         }
 
+        /*[HttpPost]
+        public ActionResult Create(Movie movie)
+        {
+            string uniqueFileName = UploadedFile(movie);
+            movie.imgFile = uniqueFileName;
+            _context.Attach(movie);
+            _context.Entry(movie).State = EntityState.Added;
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }*/
+
         // POST: Movies/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,ReleaseDate,Genre,Price,Rating")] Movie movie)
+        public async Task<IActionResult> Create([Bind("Id,Title,ReleaseDate,Genre,Price,Rating,imgFile")] Movie movie)
         {
             if (ModelState.IsValid)
             {
@@ -119,7 +149,7 @@ namespace TestingMovieMVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ReleaseDate,Genre,Price,Rating,imageFile")] Movie movie)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ReleaseDate,Genre,Price,Rating,imgFile")] Movie movie)
         {
             if (id != movie.Id)
             {

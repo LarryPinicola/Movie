@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form enctype="multipart/form-data" asp-action="Create">
+        <form enctype="multipart/form-data" asp-action="Create" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
@@ -35,9 +35,10 @@
             <div class="form-group">
                 <label asp-for="MovieImg" class="control-label"></label>
                 <div class="custom-file">
-                    <input asp-for="MovieImg" id="image" class="custom-file-input" />
+                    <input asp-for="MovieImg" id="image" class="custom-file-input" onchange="document.getElementById(ImgPrv).src=window.URL.createObjectURL(this.files[0])" />
                     <label asp-validation-for="MovieImg" class="custom-file-label"></label>
                 </div>
+                <img id="ImgPrv" src="" width="150" style="" />
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary my-3" />
@@ -54,4 +55,11 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script type="text/javascript">
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
 }

@@ -15,7 +15,9 @@ namespace MovieApp.Models
 
         public decimal Price { get; set; }
 
-        [Required(ErrorMessage ="Please choose Movie image")]
+        public string ImageUrl { get; set; }
+
+        //[Required(ErrorMessage ="Please choose Movie image")]
         [Display(Name ="Movie Img")]
         [NotMapped]
         public IFormFile MovieImg { get; set; }

@@ -12,20 +12,30 @@
 
 
 <div class="container">
-    <div class="row gx-3">
+    <div class="row gx-1">
         @foreach (var item in Model)
         {
             <div class="col">
                 <div class="card my-3" style="width:18rem;">
-                    <img src="~/movieImg/@item.ImageUrl" class="card-img-top object-fit-cover" />
+                    <img src="~/movieImg/@item.ImageUrl" class="w-100 h-75 object-fit-cover" />
                     <div class="card-body">
                         <h5 class="card-title fw-bolder">
-                            @Html.DisplayFor(modelItem => item.Title)
+                            @{
+                                int maxLength = 20;
+                                string movieTitle = item.Title;
+                                string displayedText = movieTitle.Length > maxLength ? movieTitle.Substring(0, maxLength) + "..." : movieTitle;
+                            }
+                            @Html.DisplayFor(modelItem => displayedText)
                         </h5>
                         @* <span>@(++count)</span> *@
                         <div class="">
                             <span class="card-text fs-6 fst-italic">Released - @Html.DisplayFor(modelItem => item.ReleaseDate)</span>
-                            <div class="fs-6 fst-italic">Genre - @Html.DisplayFor(modelItem => item.Genre)</div>
+                            @{
+                                int MaxLength = 20;
+                                string movieGenre = item.Genre;
+                                string displayGenre = movieGenre.Length > maxLength ? movieGenre.Substring(0, maxLength) + "..." : movieGenre;
+                            }
+                            <div class="fs-6 fst-italic">Genre - @Html.DisplayFor(modelItem => displayGenre)</div>
                             <span class="fw-bolder">Price - $@Html.DisplayFor(modelItem => item.Price)</span>
                         </div>
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

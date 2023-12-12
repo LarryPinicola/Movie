@@ -9,53 +9,31 @@
 <p>
     <a asp-action="Create" class="btn btn-primary">Create New <i class="fa-solid fa-plus"></i></a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageUrl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReleaseDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Genre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
+
+
+<div class="container">
+    <div class="row gx-3">
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    <img src="~/movieImg/@item.ImageUrl" />
-                    @* @Html.DisplayFor(modelItem => item.ImageUrl) *@
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ReleaseDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Genre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
+            <div class="col">
+                <div class="card my-3" style="width:18rem;">
+                    <img src="~/movieImg/@item.ImageUrl" class="card-img-top object-fit-cover" />
+                    <div class="card-body">
+                        <h5 class="card-title fw-bolder">
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </h5>
+                        @* <span>@(++count)</span> *@
+                        <div class="">
+                            <span class="card-text fs-6 fst-italic">Released - @Html.DisplayFor(modelItem => item.ReleaseDate)</span>
+                            <div class="fs-6 fst-italic">Genre - @Html.DisplayFor(modelItem => item.Genre)</div>
+                            <span class="fw-bolder">Price - $@Html.DisplayFor(modelItem => item.Price)</span>
+                        </div>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </div>
+                </div>
+            </div>
         }
-    </tbody>
-</table>
+    </div>
+</div>

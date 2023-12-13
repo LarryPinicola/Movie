@@ -35,8 +35,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="MovieImg" class="control-label"></label>
-                <input asp-for="MovieImg" class="form-control" />
-                <span asp-validation-for="MovieImg" class="text-danger"></span>
+                <div class="edit-custom-file">
+                    <input asp-for="MovieImg" class="form-control edit-file-input" onchange="document.getElementById(imagePrv).src=window.URL.createObjectURL(this.files[0])" />
+                    <label asp-validation-for="MovieImg" class="text-danger edit-file-label"></label>
+                </div>
+                <img id="imagePrv" src="" width="150" style="" />
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary my-3" />
@@ -50,5 +53,14 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
+
+<script type="text/javascript">
+    $(".edit-file-input").on("change", function () {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".edit-file-label").addClass("selected").html(fileName);
+    });
+</script>

@@ -27,7 +27,6 @@
                             }
                             @Html.DisplayFor(modelItem => displayedText)
                         </h5>
-                        @* <span>@(++count)</span> *@
                         <div class="">
                             <span class="card-text fs-6 fst-italic">Released - @Html.DisplayFor(modelItem => item.ReleaseDate)</span>
                             @{
@@ -39,7 +38,7 @@
                             <span class="fw-bolder">Price - $@Html.DisplayFor(modelItem => item.Price)</span>
                         </div>
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> | 
                         <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                     </div>
                 </div>

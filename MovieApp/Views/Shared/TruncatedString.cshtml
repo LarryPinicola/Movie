@@ -1,8 +1,0 @@
-﻿@model string
-
-@{
-    int maxLength = 20;
-    string displayedText = Model.Length > maxLength ? Model.Substring(0, maxLength) + "..." : Model;
-}
-
-@displayedText

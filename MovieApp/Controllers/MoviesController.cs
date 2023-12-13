@@ -43,12 +43,6 @@ namespace MovieApp.Controllers
             return uniqueFileName;
         }
 
-        /*public IActionResult Index()
-        {
-            List<Movie> movies = _context.Movie.ToList();
-            return View(movies);
-        }*/
-
         // GET: Movies
         public async Task<IActionResult> Index()
         {
@@ -77,7 +71,6 @@ namespace MovieApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-
         public async Task<ActionResult> Create(Movie movie)
         {
             if (ModelState.IsValid)
@@ -147,7 +140,7 @@ namespace MovieApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ReleaseDate,Genre,Price")] Movie movie)
+        public async Task<IActionResult> Edit(int id, Movie movie)
         {
             if (id != movie.Id)
             {

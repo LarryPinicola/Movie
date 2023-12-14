@@ -29,7 +29,7 @@ namespace MovieApp.Controllers
 
         private string UploadFile(Movie movie)
         {
-            string uniqueFileName= "" ;
+            string uniqueFileName = "";
             if (movie.MovieImg != null)
             {
                 string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "movieImg");
@@ -69,6 +69,9 @@ namespace MovieApp.Controllers
             return View(movie);
         }
 
+        // POST: Movies/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(Movie movie)
@@ -93,7 +96,6 @@ namespace MovieApp.Controllers
             }
             return RedirectToAction(nameof(Index));
             //return View(movie);
-
         }
 
         // GET: Movies/Create
@@ -102,22 +104,6 @@ namespace MovieApp.Controllers
             Movie movie = new Movie();
             return View(movie);
         }
-
-        // POST: Movies/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        /*[HttpPost]
-        [ValidateAntiForgeryToken]*/
-        /*public async Task<IActionResult> Create([Bind("Id,Title,ReleaseDate,Genre,Price")] Movie movie)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(movie);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(movie);
-        }*/
 
         // GET: Movies/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -151,21 +137,27 @@ namespace MovieApp.Controllers
             {
                 try
                 {
-                    _context.Update(movie);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!MovieExists(movie.Id))
+                    var existingMovie = await _context.Movie.FindAsync(id);
+                    if(existingMovie == null)
                     {
                         return NotFound();
                     }
-                    else
+                    existingMovie.Title = movie.Title;
+                    if(movie.MovieImg != null)
                     {
-                        throw;
+                        string uniqueFileName = UploadFile(movie);
+                        existingMovie.ImageUrl = uniqueFileName;
                     }
+                    _context.Update(existingMovie);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
+                
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    _logger.LogError(ex, "An error occured: {ErrorMessage}", ex.Message);
                 return RedirectToAction(nameof(Index));
+                }
             }
             return View(movie);
         }

@@ -20,27 +20,32 @@
                     <img src="~/movieImg/@item.ImageUrl" class="w-100 h-75 object-fit-cover" />
                     <div class="card-body">
                         <h5 class="card-title fw-bolder">
-                        @* @{
-                            int maxLength = 20;
-                            string movieTitle = item.Title;
-                            string displayedText = movieTitle.Length > maxLength ? movieTitle.Substring(0, maxLength) + "..." : movieTitle;
-                        } *@
-                        <h5 class="card-title fw-bolder">
-                            @Html.DisplayFor(modelItem => item.Title)
-                        </h5>
-                        <div class="">
-                            <span class="card-text fs-6 fst-italic">Released - @Html.DisplayFor(modelItem => item.ReleaseDate)</span>
-                            @* @{
-                                int MaxLength = 20;
-                                string movieGenre = item.Genre;
-                                string displayGenre = movieGenre.Length > MaxLength ? movieGenre.Substring(0, MaxLength) + "..." : movieGenre;
+                            @{
+                                int titleMaxLength = 20;
+                                string movieTitle = item.Title;
+                                string displayTitle = movieTitle.Length > titleMaxLength ? movieTitle.Substring(0, titleMaxLength) + "..." : movieTitle;
+                            }
+                            <h5 class="card-title fw-bolder">
+                                @Html.DisplayFor(modelItem => displayTitle)
+                            </h5>
+                            <div class="">
+                                <span class="card-text fs-6 fst-italic">Released - @Html.DisplayFor(modelItem => item.ReleaseDate)</span>
+                                @* @{
+                            int MaxLength = 20;
+                            string movieGenre = item.Genre;
+                            string displayGenre = movieGenre.Length > MaxLength ? movieGenre.Substring(0, MaxLength) + "..." : movieGenre;
                             } *@
-                            <div class="fs-6 fst-italic">Genre - @Html.DisplayFor(modelItem => item.Genre)</div>
-                            <span class="fw-bolder">Price - $@Html.DisplayFor(modelItem => item.Price)</span>
-                        </div>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> | 
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                @{
+                                    int genreMaxLength = 20;
+                                    string movieGenre = item.Genre;
+                                    string displayGenre = movieGenre.Length > genreMaxLength ? movieGenre.Substring(0, genreMaxLength) + "..." : movieGenre;
+                                }
+                                <div class="fs-6 fst-italic">Genre - @Html.DisplayFor(modelItem => displayGenre)</div>
+                                <span class="fw-bolder">Price - $@Html.DisplayFor(modelItem => item.Price)</span>
+                            </div>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                     </div>
                 </div>
             </div>

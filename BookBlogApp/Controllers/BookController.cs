@@ -1,6 +1,7 @@
 ﻿using BookBlogApp.EFDbContext;
 using BookBlogApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookBlogApp.Controllers
 {
@@ -60,5 +61,64 @@ namespace BookBlogApp.Controllers
             TempData["IsSuccess"] = result > 0;
             return Redirect("/book");
         }
+
+        //Edit
+        [ActionName("Edit")]
+        public async Task<IActionResult> BookEdit(int id)
+        {
+            if (!await _context.Books.AsNoTracking().AnyAsync(x => x.Id == id))
+            {
+                TempData["Message"] = "No data Found";
+                TempData["IsSuccess"] = false;
+                return Redirect("/book");
+            }
+
+            var book = await _context.Books.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+            if (book is null)
+            {
+                TempData["Message"] = "No data found";
+                TempData["IsSuccess"] = false;
+                return Redirect("/book");
+            }
+            return View("BookEdit",book);
+        }
+
+
+        //Update
+        [HttpPost]
+        [ActionName("Update")]
+        public async Task<IActionResult> BookUpdate(int id, BookDataModel reqModel)
+        {
+            if (!await _context.Books.AsNoTracking().AnyAsync(x => x.Id == id))
+            {
+                TempData["Message"] = "No data found";
+                TempData["IsSuccess"] = false;
+                return Redirect("/book");
+            }
+
+            var book = await _context.Books.FirstOrDefaultAsync(x => x.Id == id);
+            if (book is null)
+            {
+                TempData["Message"] = "No data found";
+                TempData["IsSuccess"] = false;
+                return Redirect("/book");
+            }
+
+            book.Title = reqModel.Title;
+            book.Author = reqModel.Author;
+            book.Price = reqModel.Price;
+            book.Description = reqModel.Description;
+            book.PublishedDate = reqModel.PublishedDate;
+            book.ImageUrl = reqModel.ImageUrl;
+
+            int result = _context.SaveChanges();
+            string message = result > 0 ? "Updating Successful" : "Updating Failed";
+            TempData["Message"] = message;
+            TempData["IsSuccess"] = result > 0;
+
+            return Redirect("/book");
+        }
+
+        //Delete
     }
 }

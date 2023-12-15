@@ -1,6 +1,5 @@
 ﻿@model List<BookDataModel>
 @{
-    //Layout = "_MainLayout";
     ViewData["Title"] = "Book Index";
     string message = null;
     bool isSuccess = false;
@@ -31,7 +30,7 @@
         @foreach (var item in Model)
         {
             <div class="col">
-                <div class="card" style="width: 18rem;">
+                <div class="card mb-2" style="width: 18rem;">
                     @* <img src="..." class="card-img-top" alt="..."> *@
                     <div class="card-body">
                         @{
@@ -44,12 +43,13 @@
                         </h5>
                         <div>
                             <div class="card-text">Author - @item.Author</div>
-                            @{
+                            @* @{
                                 int dateMaxLength = 20;
                                 string bookDate = item.PublishedDate.ToShortDateString();
                                 string displayDate = bookDate.Length > dateMaxLength ? bookDate.Substring(0, dateMaxLength) + "..." : bookDate;
-                            }
-                            <div class="card-text">Published - @displayDate</div>
+                            } *@
+                            <div class="card-text">Published Year - @item.PublishedDate</div>
+                            <div class="card-text">Price - $@item.Price</div>
                             @{
                                 int DescMaxLength = 20;
                                 string bookDesc = item.Description;
@@ -60,9 +60,15 @@
                             </div>
                             @* <span>@(++count)</span> *@
                         </div>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <div>
+                            <a href="/book/edit/@item.Id">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                            </a>
+                            <a href="/book/delete/@item.Id"><i class="fa-regular fa-trash-can"></i></a>
+                        </div>
+                        @* <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                         <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> *@
                     </div>
                 </div>
             </div>

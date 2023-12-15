@@ -15,10 +15,12 @@ namespace BookBlogApp.Models
         public int Price { get; set; }
         public string? Description { get; set; }
 
-        [DataType(DataType.Date)]
+        /*[DataType(DataType.Date)]
         [DisplayName("Published Date")]
         [DisplayFormat(DataFormatString ="{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime PublishedDate { get; set; }
+        public DateTime PublishedDate { get; set; }*/
+
+        public int PublishedDate { get; set; }
         public string? ImageUrl { get; set; }
 
         [Display(Name = "Movie Img")]

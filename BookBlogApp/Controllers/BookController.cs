@@ -80,7 +80,7 @@ namespace BookBlogApp.Controllers
                 TempData["IsSuccess"] = false;
                 return Redirect("/book");
             }
-            return View("BookEdit",book);
+            return View("BookEdit", book);
         }
 
 
@@ -107,7 +107,7 @@ namespace BookBlogApp.Controllers
             book.Title = reqModel.Title;
             book.Author = reqModel.Author;
             book.Price = reqModel.Price;
-            book.Description = reqModel.Description;
+            book.Genre = reqModel.Genre;
             book.PublishedDate = reqModel.PublishedDate;
             book.ImageUrl = reqModel.ImageUrl;
 
@@ -120,5 +120,31 @@ namespace BookBlogApp.Controllers
         }
 
         //Delete
+        [ActionName("Delete")]
+        public async Task<IActionResult> BookDelete(int id)
+        {
+            if (!await _context.Books.AsNoTracking().AnyAsync(x => x.Id == id))
+            {
+                TempData["Message"] = "No Data Found";
+                TempData["IsSuccess"] = false;
+                return Redirect("/book");
+            }
+
+            var book = await _context.Books.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+            if (book is null)
+            {
+                TempData["Message"] = "No data found";
+                TempData["IsSuccess"] = false;
+                return Redirect("/book");
+            }
+
+            _context.Remove(book);
+            int result = _context.SaveChanges();
+            string message = result > 0 ? "Deleting Successful" : "Deleting Failed";
+            TempData["Message"] = message;
+            TempData["IsSuccess"] = result > 0;
+
+            return Redirect("/book");
+        }
     }
 }

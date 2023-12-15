@@ -13,7 +13,8 @@ namespace BookBlogApp.Models
         public string Title { get; set; }
         public string Author { get; set; }
         public int Price { get; set; }
-        public string? Description { get; set; }
+        [Column("Genre")]
+        public string? Genre { get; set; }
 
         /*[DataType(DataType.Date)]
         [DisplayName("Published Date")]

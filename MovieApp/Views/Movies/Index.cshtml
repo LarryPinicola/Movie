@@ -30,11 +30,6 @@
                             </h5>
                             <div class="">
                                 <span class="card-text fs-6 fst-italic">Released - @Html.DisplayFor(modelItem => item.ReleaseDate)</span>
-                                @* @{
-                            int MaxLength = 20;
-                            string movieGenre = item.Genre;
-                            string displayGenre = movieGenre.Length > MaxLength ? movieGenre.Substring(0, MaxLength) + "..." : movieGenre;
-                            } *@
                                 @{
                                     int genreMaxLength = 20;
                                     string movieGenre = item.Genre;

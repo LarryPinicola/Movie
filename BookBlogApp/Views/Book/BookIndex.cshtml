@@ -1,50 +1,78 @@
 ﻿@model List<BookDataModel>
 @{
-    Layout = "_MainLayout";
+    //Layout = "_MainLayout";
     ViewData["Title"] = "Book Index";
-    int count = 1;
+    string message = null;
+    bool isSuccess = false;
+    //int count = 0;
+    if (TempData["Message"] != null)
+    {
+        message = TempData["Message"].ToString();
+        isSuccess = Convert.ToBoolean(TempData["IsSuccess"]);
+    }
 }
 
-<p>Hello World</p>
+@if (message is not null)
+{
+    <div class="alert alert-@(isSuccess ? "success":"danger")" role="alert">
+        @message
+    </div>
+}
 
-<div>
-    @foreach (var item in Model)
-    {
-        <div class="card" style="width: 18rem;">
-            @* <img src="..." class="card-img-top" alt="..."> *@
-            <div class="card-body">
-                @{
-                    int titleMaxLength = 20;
-                    string bookTitle = item.Title;
-                    string displayTitle = bookTitle.Length > titleMaxLength ? bookTitle.Substring(0, titleMaxLength) + "..." : bookTitle;
-                }
-                <h5 class="card-title">
-                    @Html.DisplayFor(modelItem => displayTitle)
-                </h5>
-                <div>
-                    <p class="card-text">@item.Author</p>
-                    <p class="card-text">@item.PublishedDate</p>
-                    @{
-                        int DescMaxLength = 20;
-                        string bookDesc = item.Description;
-                        string displayDesc = bookDesc.Length > DescMaxLength ? bookDesc.Substring(0, DescMaxLength) + "..." : bookDesc;
-                    }
-                    <p class="card-text">
-                        @Html.DisplayFor(modelItem => displayDesc)
-                    </p>
-                    <span>@(++count)</span>
+<div class="d-flex justify-content-between">
+    <h3 class="fw-semibold mb-3">Hello World</h3>
+    <a href="/book/create" class="btn btn-success">
+        Create <i class="fa-solid fa-circle-plus"></i>
+    </a>
+</div>
+
+<div class="container">
+    <div class="row gx-1">
+        @foreach (var item in Model)
+        {
+            <div class="col">
+                <div class="card" style="width: 18rem;">
+                    @* <img src="..." class="card-img-top" alt="..."> *@
+                    <div class="card-body">
+                        @{
+                            int titleMaxLength = 20;
+                            string bookTitle = item.Title;
+                            string displayTitle = bookTitle.Length > titleMaxLength ? bookTitle.Substring(0, titleMaxLength) + "..." : bookTitle;
+                        }
+                        <h5 class="card-title">
+                            @Html.DisplayFor(modelItem => displayTitle)
+                        </h5>
+                        <div>
+                            <div class="card-text">Author - @item.Author</div>
+                            @{
+                                int dateMaxLength = 20;
+                                string bookDate = item.PublishedDate.ToShortDateString();
+                                string displayDate = bookDate.Length > dateMaxLength ? bookDate.Substring(0, dateMaxLength) + "..." : bookDate;
+                            }
+                            <div class="card-text">Published - @displayDate</div>
+                            @{
+                                int DescMaxLength = 20;
+                                string bookDesc = item.Description;
+                                string displayDesc = bookDesc.Length > DescMaxLength ? bookDesc.Substring(0, DescMaxLength) + "..." : bookDesc;
+                            }
+                            <div class="card-text">
+                                Desc - @Html.DisplayFor(modelItem => displayDesc)
+                            </div>
+                            @* <span>@(++count)</span> *@
+                        </div>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </div>
                 </div>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </div>
-        </div>
-    }
+        }
+    </div>
 </div>
 
 
 @section scripts{
     <script>
-        console.log('text');
+        console.log('testing');
     </script>
 }

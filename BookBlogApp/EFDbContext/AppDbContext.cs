@@ -9,6 +9,6 @@ namespace BookBlogApp.EFDbContext
         {
         }
 
-        public DbSet<BookDataModel> Blogs { get; set; }
+        public DbSet<BookDataModel> Books { get; set; }
     }
 }

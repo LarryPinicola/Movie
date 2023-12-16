@@ -1,0 +1,86 @@
+﻿@model List<BookDataModel>
+@{
+    ViewData["Title"] = "Book Index";
+    string message = null;
+    bool isSuccess = false;
+    //int count = 0;
+    if (TempData["Message"] != null)
+    {
+        message = TempData["Message"].ToString();
+        isSuccess = Convert.ToBoolean(TempData["IsSuccess"]);
+    }
+}
+
+@if (message is not null)
+{
+    <div class="alert alert-@(isSuccess ? "success":"danger")" role="alert">
+        @message
+    </div>
+}
+
+<div class="d-flex justify-content-between">
+    <h3 class="fw-semibold mb-3">Hello World</h3>
+    <a href="/book/create" class="btn btn-success">
+        Create <i class="fa-solid fa-circle-plus"></i>
+    </a>
+</div>
+
+<div class="container mt-5">
+    <div class="row gx-1">
+        @foreach (var item in Model)
+        {
+            <div class="col">
+                <div class="card mb-3" style="width: 18rem;">
+                    @* <img src="..." class="card-img-top" alt="..."> *@
+                    <div class="card-body">
+                        @{
+                            int titleMaxLength = 20;
+                            string bookTitle = item.Title;
+                            string displayTitle = bookTitle.Length > titleMaxLength ? bookTitle.Substring(0, titleMaxLength) + "..." : bookTitle;
+                        }
+                        <h5 class="card-title">
+                            @Html.DisplayFor(modelItem => displayTitle)
+                        </h5>
+                        <div>
+                            <div class="card-text">Author - @item.Author</div>
+                            @* @{
+                        int dateMaxLength = 20;
+                        string bookDate = item.PublishedDate.ToShortDateString();
+                        string displayDate = bookDate.Length > dateMaxLength ? bookDate.Substring(0, dateMaxLength) + "..." : bookDate;
+                        } *@
+                            <div class="card-text">Published Year - @item.PublishedDate</div>
+                            <div class="card-text">Price - $@item.Price</div>
+                            @{
+                                int DescMaxLength = 20;
+                                string bookGenre = item.Genre;
+                                string displayGenre = bookGenre.Length > DescMaxLength ? bookGenre.Substring(0, DescMaxLength) + "..." : bookGenre;
+                            }
+                            <div class="card-text">
+                                Genre - @Html.DisplayFor(modelItem => displayGenre)
+                            </div>
+                            @* <span>@(++count)</span> *@
+                        </div>
+                        <div class="d-flex gap-3 mt-2">
+                            <a href="/book/edit/@item.Id">
+                                <i class="fa-regular fa-pen-to-square" style="color:#001eff;"></i>
+                            </a>
+                            <a href="/book/delete/@item.Id">
+                                <i class="fa-regular fa-trash-can" style="color:#ff0000;"></i>
+                            </a>
+                        </div>
+                        @* <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> *@
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+        console.log('testing');
+    </script>
+}

@@ -5,6 +5,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<MovieAppContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MovieAppContext") ?? throw new InvalidOperationException("Connection string 'MovieAppContext' not found.")));
 
+//book configuraion
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection"))
+);
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 

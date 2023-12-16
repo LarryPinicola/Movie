@@ -1,0 +1,45 @@
+﻿@model MovieApp.Models.BookDataModel
+
+<form action="/book/save" method="post">
+    <div class="mb-3">
+        <label class="form-label">Book Title</label>
+        <input type="text" class="form-control" name="Title" placeholder="Book Title">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Author</label>
+        <input type="text" class="form-control" name="Author" placeholder="Author">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Price</label>
+        <input type="text" class="form-control" name="Price" placeholder="Price">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Genre</label>
+        <input type="text" class="form-control" name="Genre" placeholder="Book Genre">
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="PublishedDate" class="control-label"></label>
+        <input asp-for="PublishedDate" class="form-control" />
+    </div>
+    @* <div class="">
+        <label class="form-label">Book Cover</label>
+        <div class="custom-file">
+            <input type="text" class="form-control custom-file-input" name="bookImg" id="image" onchange="document.getElementById(imgPrv).src=window.URL.createObjectURL(this.files[0])">
+            <label class="custom-file-label"></label>
+        </div>
+        <img id="imgPrv" width="150" style="" />
+    </div> *@
+    <div class="">
+        <a type="button" class="btn btn-danger" href="/book">Cancel</a>
+        <button type="submit" class="btn btn-primary" id="btnSave">Save <i class="fa-solid fa-floppy-disk"></i></button>
+    </div>
+</form>
+
+@section Scripts{
+    <script type="text/javascript">
+        $("#.custom-file-input").on("change", funciton(){
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
+    }

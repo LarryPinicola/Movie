@@ -42,7 +42,7 @@ namespace BookBlogApp.Controllers
                 uniqueFileName = "notValid";
             }
 
-            
+
             return uniqueFileName;
         }
 
@@ -52,6 +52,22 @@ namespace BookBlogApp.Controllers
             List<BookDataModel> lst = _context.Books.ToList();
             return View("BookIndex", lst);
         }
+
+        // GET: book/detail/2
+        public async Task<IActionResult> BookDetail(int? id)
+        {
+            if (id is null || _context.Books is null)
+            {
+                return NotFound();
+            }
+            var book = await _context.Books.FirstOrDefaultAsync(b => b.Id == id);
+            if (book is null)
+            {
+                return NotFound();
+            }
+            return View("BookDetail",book);
+        }
+
         [ActionName("Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -74,7 +90,7 @@ namespace BookBlogApp.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            
+
             return RedirectToAction(nameof(Index));
             //return View(movie);
         }

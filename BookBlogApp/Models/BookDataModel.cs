@@ -24,7 +24,7 @@ namespace BookBlogApp.Models
         public int PublishedDate { get; set; }
         public string? ImageUrl { get; set; }
 
-        [Display(Name = "Movie Img")]
+        [Display(Name = "Book Img")]
         [NotMapped]
         public IFormFile? BookImg { get; set; }
     }

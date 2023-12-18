@@ -1,37 +1,41 @@
 ﻿@model BookBlogApp.Models.BookDataModel
 
-<form action="/book/save" method="post">
+@{
+    ViewData["Title"] = "Blog Create";
+}
+
+<form enctype="multipart/form-data" asp-action="Create" method="post">
     <div class="mb-3">
         <label class="form-label">Book Title</label>
-        <input type="text" class="form-control" name="Title" placeholder="Book Title">
+        <input asp-for="Title" type="text" class="form-control" name="Title" placeholder="Book Title">
     </div>
     <div class="mb-3">
         <label class="form-label">Author</label>
-        <input type="text" class="form-control" name="Author" placeholder="Author">
+        <input asp-for="Author" type="text" class="form-control" name="Author" placeholder="Author">
     </div>
     <div class="mb-3">
         <label class="form-label">Price</label>
-        <input type="text" class="form-control" name="Price" placeholder="Price">
+        <input asp-for="Price" type="text" class="form-control" name="Price" placeholder="Price">
     </div>
     <div class="mb-3">
         <label class="form-label">Genre</label>
-        <input type="text" class="form-control" name="Genre" placeholder="Book Genre">
+        <input asp-for="Genre" type="text" class="form-control" name="Genre" placeholder="Book Genre">
     </div>
     <div class="form-group mb-3">
         <label asp-for="PublishedDate" class="control-label"></label>
         <input asp-for="PublishedDate" class="form-control" />
     </div>
-    @* <div class="">
-        <label class="form-label">Book Cover</label>
+    <div class="">
+        <label class="form-label"></label>
         <div class="custom-file">
-            <input type="text" class="form-control custom-file-input" name="bookImg" id="image" onchange="document.getElementById(imgPrv).src=window.URL.createObjectURL(this.files[0])">
+            <input asp-for="BookImg" class="form-control custom-file-input" name="BookImg" id="image" onchange="document.getElementById(imgPrv).src=window.URL.createObjectURL(this.files[0])">
             <label class="custom-file-label"></label>
         </div>
         <img id="imgPrv" width="150" style="" />
-    </div> *@
-    <div class="">
+    </div>
+    <div class="form-group">
         <a type="button" class="btn btn-danger" href="/book">Cancel</a>
-        <button type="submit" class="btn btn-primary" id="btnSave">Save <i class="fa-solid fa-floppy-disk"></i></button>
+        <input type="submit" value="Create" class="btn btn-success" />
     </div>
 </form>
 

@@ -1,7 +1,12 @@
-﻿using BookBlogApp.EFDbContext;
-using BookBlogApp.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using BookBlogApp.EFDbContext;
+using BookBlogApp.Models;
 
 namespace BookBlogApp.Controllers
 {
@@ -24,14 +29,20 @@ namespace BookBlogApp.Controllers
             string uniqueFileName = "";
             if (book.BookImg != null)
             {
-                string uploadFolder = Path.Combine(webHostEnvironment.WebRootPath, "bookImg");
-                uniqueFileName = Guid.NewGuid() + "_" + book.BookImg.FileName;
-                string filePath = Path.Combine(uploadFolder, uniqueFileName);
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "bookImage");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + book.BookImg.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
                     book.BookImg.CopyTo(fileStream);
                 }
             }
+            else
+            {
+                uniqueFileName = "notValid";
+            }
+
+            
             return uniqueFileName;
         }
 
@@ -40,6 +51,32 @@ namespace BookBlogApp.Controllers
         {
             List<BookDataModel> lst = _context.Books.ToList();
             return View("BookIndex", lst);
+        }
+        [ActionName("Create")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> BookCreate(BookDataModel book)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    string uniqueFileName = UploadFile(book);
+                    book.ImageUrl = uniqueFileName;
+                    _context.Attach(book);
+                    _context.Entry(book).State = EntityState.Added;
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "An error occured: {ErrorMessage}", ex.Message);
+                }
+                _context.Add(book);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            
+            return RedirectToAction(nameof(Index));
+            //return View(movie);
         }
 
         //Create

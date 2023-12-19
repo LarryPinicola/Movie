@@ -54,6 +54,7 @@ namespace BookBlogApp.Controllers
         }
 
         // GET: book/detail/2
+        [ActionName("Detail")]
         public async Task<IActionResult> BookDetail(int? id)
         {
             if (id is null || _context.Books is null)

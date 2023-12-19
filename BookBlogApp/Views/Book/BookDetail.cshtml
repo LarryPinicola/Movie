@@ -6,7 +6,7 @@
 <h2>Book Review</h2>
 <hr />
 
-<div id="printContent" class="d-flex justify-content-around w-100 mx-auto border">
+<div id="printContent" class="d-flex text-center justify-content-around w-100 mx-auto border">
     <dl class="my-5">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Title)
@@ -24,29 +24,29 @@
             @Html.DisplayNameFor(model => model.Price)
         </dt>
         <dd class="col-sm-10 fst-italic">
-            @Html.DisplayFor(model => model.Price)
+            $@Html.DisplayFor(model => model.Price)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Genre)
         </dt>
         <dd class="col-sm-10 fst-italic">
-            $@Html.DisplayFor(model => model.Genre)
+            @Html.DisplayFor(model => model.Genre)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.PublishedDate)
         </dt>
         <dd class="col-sm-10 fst-italic">
-            $@Html.DisplayFor(model => model.PublishedDate)
+            @Html.DisplayFor(model => model.PublishedDate)
         </dd>
     </dl>
     <div class="my-5">
-        <img src="~/bookImage/@Model.ImageUrl" class="w-50 object-fit-cover" />
+        <img src="~/bookImage/@Model.ImageUrl" class="w-25 object-fit-cover" />
     </div>
 </div>
 
 <div class="mt-3">
     <a asp-action="Edit" class="btn btn-primary" asp-route-id="@Model?.Id">Edit</a>
-    <button class="btn btn-info" onclick="printtPage()">
+    <button class="btn btn-info" onclick="printPage()">
         Print
         <i class="fa-solid fa-print"></i>
     </button>

@@ -31,23 +31,19 @@
         {
             <div class="col">
                 <div class="card mb-3" style="width: 18rem;">
-                    <img src="~/bookImage/@item.ImageUrl" class="card-img-top"/>
+                    <img src="~/bookImage/@item.ImageUrl" class="object-fit-cover"/>
                     <div class="card-body">
                         @{
                             int titleMaxLength = 20;
                             string bookTitle = item.Title;
                             string displayTitle = bookTitle.Length > titleMaxLength ? bookTitle.Substring(0, titleMaxLength) + "..." : bookTitle;
                         }
-                        <h5 class="card-title">
+                        <h5 class="card-title fw-bold">
                             @Html.DisplayFor(modelItem => displayTitle)
                         </h5>
+                        <hr/>
                         <div>
                             <div class="card-text">Author - @item.Author</div>
-                            @* @{
-                        int dateMaxLength = 20;
-                        string bookDate = item.PublishedDate.ToShortDateString();
-                        string displayDate = bookDate.Length > dateMaxLength ? bookDate.Substring(0, dateMaxLength) + "..." : bookDate;
-                        } *@
                             <div class="card-text">Published Year - @item.PublishedDate</div>
                             <div class="card-text">Price - $@item.Price</div>
                             @{
@@ -58,7 +54,6 @@
                             <div class="card-text">
                                 Genre - @Html.DisplayFor(modelItem => displayGenre)
                             </div>
-                            @* <span>@(++count)</span> *@
                         </div>
                         <div class="d-flex gap-3 mt-2">
                             <a href="/book/edit/@item.Id">
@@ -71,9 +66,6 @@
                                 <i class="fa-regular fa-trash-can" style="color:#ff0000;"></i>
                             </a>
                         </div>
-                        @* <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> *@
                     </div>
                 </div>
             </div>

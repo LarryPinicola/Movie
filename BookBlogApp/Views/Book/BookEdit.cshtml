@@ -1,6 +1,12 @@
 ﻿@model BookDataModel
 
-<form action="/book/update/@Model.Id" method="post">
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1 class="text-center">Hello, I'm BookEdit Lay Pr</h1>
+
+<form asp-action="Edit" method="post">
     <div class="mb-3">
         <label class="form-label">Book Title</label>
         <input type="text" value="@Model.Title" class="form-control" name="Title" placeholder="Book Title">
@@ -21,16 +27,30 @@
         <label asp-for="PublishedDate" class="control-label"></label>
         <input asp-for="PublishedDate" class="form-control" />
     </div>
-    @* <div class="">
-    <label class="form-label">Book Cover</label>
-    <div class="custom-file">
-    <input type="text" class="form-control custom-file-input" name="bookImg" id="image" onchange="document.getElementById(imgPrv).src=window.URL.createObjectURL(this.files[0])">
-    <label class="custom-file-label"></label>
+    <div class="">
+        <label class="form-label">Book Cover</label>
+        <div class="custom-file">
+            <input asp-for="BookImg" value="@Model.ImageUrl" type="file" class="form-control edit-file-input" name="bookImg" onchange="displayImage(this)">
+            <label class="edit-file-label"></label>
+        </div>
+        <img id="imgPrv" width="150" style="" />
     </div>
-    <img id="imgPrv" width="150" style="" />
-    </div> *@
     <div class="">
         <a type="button" class="btn btn-danger" href="/book">Cancel</a>
-        <button type="submit" class="btn btn-primary" id="btnUpdate">Update</button>
+        <button type="submit" class="btn btn-primary">Update</button>
     </div>
 </form>
+
+@section scripts {
+    <script>
+        function displayImage(input) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var img = document.getElementById('imgPrv');
+                img.src = e.target.result;
+                img.style.display = 'block';
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    </script>
+    }

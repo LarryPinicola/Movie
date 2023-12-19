@@ -6,7 +6,7 @@
 
 <h1 class="text-center">Hello, I'm BookEdit Lay Pr</h1>
 
-<form asp-action="Edit" method="post">
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
     <div class="mb-3">
         <label class="form-label">Book Title</label>
         <input type="text" value="@Model.Title" class="form-control" name="Title" placeholder="Book Title">
@@ -30,7 +30,7 @@
     <div class="">
         <label class="form-label">Book Cover</label>
         <div class="custom-file">
-            <input asp-for="BookImg" value="@Model.ImageUrl" type="file" class="form-control edit-file-input" name="bookImg" onchange="displayImage(this)">
+            <input asp-for="BookImg" value="@Model.ImageUrl" type="file" class="form-control edit-file-input" onchange="displayImage(this)">
             <label class="edit-file-label"></label>
         </div>
         <img id="imgPrv" width="150" style="" />
@@ -54,3 +54,5 @@
         }
     </script>
     }
+
+

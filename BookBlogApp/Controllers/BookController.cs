@@ -24,7 +24,7 @@ namespace BookBlogApp.Controllers
             _logger = logger;
         }
 
-        private string UploadFile(BookDataModel book)
+        /*private string UploadFile(BookDataModel book)
         {
             string uniqueFileName = null;
             if (book.BookImg != null)
@@ -44,6 +44,38 @@ namespace BookBlogApp.Controllers
 
 
             return uniqueFileName;
+        }*/
+
+        //modify uploadFile method
+        private string UploadFile(BookDataModel book)
+        {
+            string uniqueName = "";
+
+            if (book.BookImg != null)
+            {
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "bookImage");
+                if (!string.IsNullOrEmpty(book.ImageUrl))
+                {
+                    string existingFilePath = Path.Combine(webHostEnvironment.WebRootPath, book.ImageUrl);
+                    if (System.IO.File.Exists(existingFilePath))
+                    {
+                        System.IO.File.Delete(existingFilePath);
+                    }
+                }
+
+                uniqueName = Guid.NewGuid().ToString() + "_" + book.BookImg.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    book.BookImg.CopyTo(fileStream);
+                }
+            }
+            else
+            {
+                uniqueName = "notValid";
+            }
+            return uniqueName;
         }
 
         [ActionName("Index")]
@@ -150,7 +182,8 @@ namespace BookBlogApp.Controllers
             {
                 return NotFound();
             }
-            return View("BookEdit",book);
+            //return View(book);
+            return View("BookEdit", book);
         }
 
         //EDIT 
@@ -158,7 +191,7 @@ namespace BookBlogApp.Controllers
         [ActionName("Edit")]
         public async Task<IActionResult> BookEdit(int id, BookDataModel book)
         {
-            if(id != book.Id)
+            if (id != book.Id)
             {
                 return NotFound();
             }
@@ -180,8 +213,9 @@ namespace BookBlogApp.Controllers
                     existingBook.ImageUrl = book.ImageUrl;
                     if (book.BookImg != null)
                     {
-                        string uniqueName = UploadFile(book);
-                        existingBook.ImageUrl = uniqueName;
+                        book.ImageUrl = existingBook.ImageUrl;
+                        string newImagePath = UploadFile(book);
+                        existingBook.ImageUrl = newImagePath;
                     }
                     _context.Update(existingBook);
                     await _context.SaveChangesAsync();

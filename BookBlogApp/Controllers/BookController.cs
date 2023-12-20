@@ -24,29 +24,7 @@ namespace BookBlogApp.Controllers
             _logger = logger;
         }
 
-        /*private string UploadFile(BookDataModel book)
-        {
-            string uniqueFileName = null;
-            if (book.BookImg != null)
-            {
-                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "bookImage");
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + book.BookImg.FileName;
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    book.BookImg.CopyTo(fileStream);
-                }
-            }
-            else
-            {
-                uniqueFileName = "notValid";
-            }
-
-
-            return uniqueFileName;
-        }*/
-
-        //modify uploadFile method
+        //modified uploadFile method
         private string UploadFile(BookDataModel book)
         {
             string uniqueName = "";
@@ -148,27 +126,6 @@ namespace BookBlogApp.Controllers
             return Redirect("/book");
         }
 
-        //Edit
-        /*[ActionName("Edit")]
-        public async Task<IActionResult> BookEdit(int id)
-        {
-            if (!await _context.Books.AsNoTracking().AnyAsync(x => x.Id == id))
-            {
-                TempData["Message"] = "No data Found";
-                TempData["IsSuccess"] = false;
-                return Redirect("/book");
-            }
-
-            var book = await _context.Books.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
-            if (book is null)
-            {
-                TempData["Message"] = "No data found";
-                TempData["IsSuccess"] = false;
-                return Redirect("/book");
-            }
-            return View("BookEdit", book);
-        }*/
-
         //GET: book/edit/3
         [ActionName("Edit")]
         public async Task<IActionResult> BookEdit(int? id)
@@ -229,51 +186,6 @@ namespace BookBlogApp.Controllers
             }
             return View(book);
         }
-
-        //Update
-        /*[HttpPost]
-        [ActionName("Update")]
-        public async Task<IActionResult> BookUpdate(int id, BookDataModel reqModel)
-        {
-            if (!await _context.Books.AsNoTracking().AnyAsync(x => x.Id == id))
-            {
-                TempData["Message"] = "No data found";
-                TempData["IsSuccess"] = false;
-                return Redirect("/book");
-            }
-            try
-            {
-                var book = await _context.Books.FirstOrDefaultAsync(x => x.Id == id);
-                if (book is null)
-                {
-                    TempData["Message"] = "No data found";
-                    TempData["IsSuccess"] = false;
-                    return Redirect("/book");
-                }
-                book.Title = reqModel.Title;
-                book.Author = reqModel.Author;
-                book.Price = reqModel.Price;
-                book.Genre = reqModel.Genre;
-                book.PublishedDate = reqModel.PublishedDate;
-                if (reqModel.ImageUrl != null)
-                {
-                    book.ImageUrl = reqModel.ImageUrl;
-                }
-                int result = _context.SaveChanges();
-                string message = result > 0 ? "Updating Successful" : "Updating Failed";
-                TempData["Message"] = message;
-                TempData["IsSuccess"] = result > 0;
-                return RedirectToAction(nameof(Index));
-                //return Redirect("/book");
-            }
-            catch (DbUpdateConcurrencyException ex)
-            {
-                _logger.LogError(ex, "An error occured:{ErrorMessage}", ex.Message);
-                return RedirectToAction(nameof(Index));
-            }
-            //return View(book);
-        }*/
-
 
         //Delete
         [ActionName("Delete")]

@@ -33,12 +33,25 @@ namespace MovieApp.Controllers
             if (movie.MovieImg != null)
             {
                 string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "movieImg");
+                if (!string.IsNullOrEmpty(movie.ImageUrl))
+                {
+                    string existingFilePath = Path.Combine(webHostEnvironment.WebRootPath, movie.ImageUrl);
+                    if (System.IO.File.Exists(existingFilePath))
+                    {
+                        System.IO.File.Delete(existingFilePath);
+                    }
+                }
                 uniqueFileName = Guid.NewGuid().ToString() + "_" + movie.MovieImg.FileName;
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
                     movie.MovieImg.CopyTo(fileStream);
                 }
+            }
+            else
+            {
+                uniqueFileName = "notValid";
             }
             return uniqueFileName;
         }
@@ -95,7 +108,6 @@ namespace MovieApp.Controllers
                 _logger.LogError(ex, "An error occured: {ErrorMessage}", ex.Message);
             }
             return RedirectToAction(nameof(Index));
-            //return View(movie);
         }
 
         // GET: Movies/Create
@@ -106,6 +118,7 @@ namespace MovieApp.Controllers
         }
 
         // GET: Movies/Edit/5
+        [ActionName("Edit")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Movie == null)
@@ -121,11 +134,8 @@ namespace MovieApp.Controllers
             return View(movie);
         }
 
-        // POST: Movies/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ActionName("Edit")]
         public async Task<IActionResult> Edit(int id, Movie movie)
         {
             if (id != movie.Id)
@@ -138,25 +148,30 @@ namespace MovieApp.Controllers
                 try
                 {
                     var existingMovie = await _context.Movie.FindAsync(id);
-                    if(existingMovie == null)
+                    if (existingMovie == null)
                     {
                         return NotFound();
                     }
                     existingMovie.Title = movie.Title;
-                    if(movie.MovieImg != null)
+                    existingMovie.ReleaseDate = movie.ReleaseDate;
+                    existingMovie.Genre = movie.Genre;
+                    existingMovie.Price = movie.Price;
+                    existingMovie.ImageUrl = movie.ImageUrl;
+                    if (movie.MovieImg != null)
                     {
-                        string uniqueFileName = UploadFile(movie);
-                        existingMovie.ImageUrl = uniqueFileName;
+                        movie.ImageUrl = existingMovie.ImageUrl;
+                        string newImagePath = UploadFile(movie);
+                        existingMovie.ImageUrl = newImagePath;
                     }
                     _context.Update(existingMovie);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
-                
+
                 catch (DbUpdateConcurrencyException ex)
                 {
                     _logger.LogError(ex, "An error occured: {ErrorMessage}", ex.Message);
-                return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Index));
                 }
             }
             return View(movie);

@@ -15,11 +15,11 @@ namespace MovieApp.Models
 
         public decimal Price { get; set; }
 
-        public string ImageUrl { get; set; }
+        public string? ImageUrl { get; set; }
 
         //[Required(ErrorMessage ="Please choose Movie image")]
         [Display(Name ="Movie Img")]
         [NotMapped]
-        public IFormFile MovieImg { get; set; }
+        public IFormFile? MovieImg { get; set; }
     }
 }
